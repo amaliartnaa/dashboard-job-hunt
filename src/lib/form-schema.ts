@@ -6,7 +6,7 @@ export const jobFormSchema = z.object({
         .string({ required_error: 'Job Title is required' })
         .min(3, { message: 'Job Title must be at least 3 characters' }),
     jobType: z.enum(JOBTYPES, { required_error: 'You need to select a job type' }),
-    salaryForm: z.string({ required_error: 'Salary From is required' }),
+    salaryFrom: z.string({ required_error: 'Salary From is required' }),
     salaryTo: z.string({ required_error: 'Salary To is required' }),
     categoryId: z.string({ required_error: 'You need to select a category' }),
     requiredSkills: z
