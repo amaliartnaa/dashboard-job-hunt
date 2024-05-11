@@ -1,6 +1,5 @@
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { JOB_APPLICANTS_COLUMNS, JOB_APPLICANTS_DATA, JOB_LISTING_COLUMNS, JOB_LISTING_DATA } from '@/constants';
-import { Badge } from 'lucide-react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { JOB_APPLICANTS_COLUMNS, JOB_APPLICANTS_DATA } from '@/constants';
 import React, { FC } from 'react'
 import ButtonActionTable from '../ButtonActionTable';
 
