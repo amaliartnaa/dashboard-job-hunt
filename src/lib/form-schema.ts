@@ -16,14 +16,14 @@ export const jobFormSchema = z.object({
     jobDescription: z
         .string({ required_error: 'Job Description is required' })
         .min(10, {message: 'Job Description must be at least 3 characters'}),
-    responsibilty: z
-        .string({ required_error: 'Job Description is required' })
-        .min(10, {message: 'Job Description must be at least 3 characters'}),
+    responsibility: z
+        .string({ required_error: 'Responsibilities is required' })
+        .min(10, {message: 'Responsibilities must be at least 3 characters'}),
     whoYouAre: z
         .string({ required_error: 'Job Description is required' })
-        .min(10, {message: 'Job Description must be at least 3 characters'}),
+        .min(10, {message: 'Who You Are must be at least 3 characters'}),
     niceToHaves: z
-        .string({ required_error: 'Job Description is required' })
+        .string({ required_error: 'Nice-To-Haves is required' })
         .min(10, {message: 'Job Description must be at least 3 characters'}),
     benefits: z.object({
         benefit: z.string(),
