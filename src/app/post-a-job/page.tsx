@@ -15,6 +15,8 @@ import { JOBTYPES } from '@/constants';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import InputSkills from '@/components/organisms/InputSkills';
 import CKEditor from '@/components/organisms/CKEditor';
+import InputBenefits from '@/components/organisms/InputBenefits';
+import { Button } from '@/components/ui/button';
 
 interface PostJobProps {}
 
@@ -227,6 +229,14 @@ const PostJobPage: FC<PostJobProps> = ({ }) => {
 							editorLoaded={editorLoaded} 
 						/>
 					</FieldInput>
+
+					<FieldInput title="Perks and Benefits" subtitle="Encourage more people to apply by sharing the attractive rewards and benefits you offer tour employees">
+						<InputBenefits form={form}/>
+					</FieldInput>
+
+					<div className="flex justify-end">
+						<Button size="lg">Do a Review</Button>
+					</div>
         </form>
       </Form>
     </div>
