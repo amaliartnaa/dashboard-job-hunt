@@ -1,3 +1,4 @@
+import OverviewForm from "@/components/forms/OverviewForm";
 import Applicants from "@/components/organisms/Applicants";
 import JobDetail from "@/components/organisms/JobDetail";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,13 +22,13 @@ const SettingsPage: FC<SettingsPageProps> = ({ }) => {
           <TabsTrigger value="teams">Teams</TabsTrigger>
         </TabsList>
         <TabsContent value="overview">
-          <div className="">lorem</div>
+          <OverviewForm />
         </TabsContent>
         <TabsContent value="socialLinks">
-          <div className="">lorem</div>
+          <div>lorem</div>
         </TabsContent>
         <TabsContent value="teams">
-          <div className="">Teams</div>
+          <div>Teams</div>
         </TabsContent>
       </Tabs>
     </div>
