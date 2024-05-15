@@ -3,13 +3,19 @@
 import TitleForm from '@/components/atoms/TitleForm'
 import CustomUpload from '@/components/organisms/CustomUpload'
 import FieldInput from '@/components/organisms/FieldInput'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { LOCATION_OPTIONS, optionType } from '@/constants'
+import { EMPLOYEE_OPTIONS, LOCATION_OPTIONS, optionType } from '@/constants'
 import { overviewFormSchema } from '@/lib/form-schema'
+import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Separator } from '@radix-ui/react-separator'
+import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
 import React, { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -75,7 +81,7 @@ const OverviewForm: FC<OverviewFormProps> = ({ }) => {
                     <FormControl>
                       <Input
                         className="w-[450px]"
-                        placeholder="Twitter" 
+                        placeholder="https://twitter.com" 
                         {...field} 
                       />
                     </FormControl>
@@ -109,6 +115,103 @@ const OverviewForm: FC<OverviewFormProps> = ({ }) => {
 								  </FormItem>
 							  )}
 						  />
+
+              <div className="w-[450px] grid grid-cols-2 gap-4">
+                <FormField 
+							    control={form.control}
+							    name="employee"
+							    render={({ field}) => (
+								    <FormItem>
+									    <FormLabel>Employee</FormLabel>
+									    <Select onValueChange={field.onChange} defaultValue={field.value}>
+										    <FormControl>
+											    <SelectTrigger>
+												    <SelectValue placeholder="Employee"/>
+											    </SelectTrigger>
+										    </FormControl>
+										    <SelectContent>
+											    {EMPLOYEE_OPTIONS.map((item: optionType, i: number) => (
+                            <SelectItem 
+                              key={item.id + i} 
+                              value={item.id}
+                            >
+                              {item.label}
+                            </SelectItem>
+                          ))}
+										    </SelectContent>
+									    </Select>
+								    </FormItem>
+							    )}
+						    />
+                <FormField 
+							    control={form.control}
+							    name="industry"
+							    render={({ field}) => (
+								    <FormItem>
+									    <FormLabel>Industry</FormLabel>
+									    <Select onValueChange={field.onChange} defaultValue={field.value}>
+										    <FormControl>
+											    <SelectTrigger>
+												    <SelectValue placeholder="Industry"/>
+											    </SelectTrigger>
+										    </FormControl>
+										    <SelectContent>
+											    {LOCATION_OPTIONS.map((item: optionType, i: number) => (
+                            <SelectItem 
+                              key={item.id + i} 
+                              value={item.id}
+                            >
+                              {item.label}
+                            </SelectItem>
+                          ))}
+										    </SelectContent>
+									    </Select>
+								    </FormItem>
+							    )}
+						    />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="dateFounded"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Date Founded</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[450px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             </div>
           </FieldInput>
         </form>
