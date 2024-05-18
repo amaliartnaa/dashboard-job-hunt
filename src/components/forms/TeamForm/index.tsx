@@ -1,6 +1,7 @@
 import FieldInput from "@/components/organisms/FieldInput";
 import { InstagramIcon, LinkedinIcon } from "lucide-react";
 import React, { FC } from "react";
+import DialogAddTeam from "./DialogAddTeam";
 
 interface TeamFormProps {}
 
@@ -13,6 +14,7 @@ const TeamForm: FC<TeamFormProps> = ({}) => {
       <div className="w-[65%] mb-5">
         <div className="flex flex-row justify-between items-center">
           <div className="text-lg font-semibold">2 Members</div>
+          <DialogAddTeam />
         </div>
         <div className="grid grid-cols-3 gap-5 mt-6">
           {[0, 1, 2].map((item: number) => (
