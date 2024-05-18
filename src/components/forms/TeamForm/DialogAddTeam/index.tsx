@@ -52,7 +52,7 @@ const DialogAddTeam: FC<DialogAddTeamProps> = ({ }) => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Website</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Name" 
