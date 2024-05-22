@@ -10,13 +10,13 @@ import { redirect } from "next/navigation";
 
 const epilogue = Epilogue({ subsets: ["latin"] });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
 
-  const session = getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
   if (session !== null) {
     return redirect('/');
