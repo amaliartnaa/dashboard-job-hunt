@@ -3,6 +3,7 @@ import { Epilogue } from "next/font/google";
 import "../globals.css";
 import Sidebar from "@/components/layouts/Sidebar/index";
 import Header from "@/components/layouts/Header";
+import NextAuthProvider from "@/context/NextAuthProvider";
 
 const epilogue = Epilogue({ subsets: ["latin"] });
 
@@ -20,21 +21,23 @@ export default function RootLayout({
     <html lang="en">
       <body className={epilogue.className}>
         <main>
-          <div className="border-t">
-            <div className="bg-background">
-              <div className="flex flex-row">
-                <div className="hidden lg:block w-[18%]">
-                  <Sidebar />
-                </div>
-                <div className="col-span-3 overflow-auto lg:col-span-5 lg:border-l w-[82%]">
-                  <div className="px-6 py-6 lg:px-8">
-                    <Header />
-                    {children}
+          <NextAuthProvider>
+            <div className="border-t">
+              <div className="bg-background">
+                <div className="flex flex-row">
+                  <div className="hidden lg:block w-[18%]">
+                    <Sidebar />
+                  </div>
+                  <div className="col-span-3 overflow-auto lg:col-span-5 lg:border-l w-[82%]">
+                    <div className="px-6 py-6 lg:px-8">
+                      <Header />
+                      {children}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </NextAuthProvider>
         </main>
       </body>
     </html>
