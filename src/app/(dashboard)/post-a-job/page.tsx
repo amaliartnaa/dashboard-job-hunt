@@ -17,10 +17,17 @@ import InputSkills from '@/components/organisms/InputSkills';
 import CKEditor from '@/components/organisms/CKEditor';
 import InputBenefits from '@/components/organisms/InputBenefits';
 import { Button } from '@/components/ui/button';
+import useSWR from 'swr';
+import { fetcher } from '@/lib/utils';
+import { CategoryJob } from '@prisma/client';
 
 interface PostJobProps {}
 
 const PostJobPage: FC<PostJobProps> = ({ }) => {
+	const { data, error, isLoading } = useSWR<CategoryJob>('/api/job/categories', fetcher)
+
+	console.log(data)
+
 	const [ editorLoaded, setEditorLoaded ] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof jobFormSchema>>({
@@ -169,9 +176,9 @@ const PostJobPage: FC<PostJobProps> = ({ }) => {
 											</SelectTrigger>
 										</FormControl>
 										<SelectContent>
-											<SelectItem value="m@example.com">m@example.com</SelectItem>
-											<SelectItem value="m@google.com">m@google.com</SelectItem>
-											<SelectItem value="m@support.com">m@support.com</SelectItem>
+										{Array.isArray(data) && data?.map((item: any) => (
+  										<SelectItem key={item.id} value={item.id}>{item.name}</SelectItem>
+										))}	
 										</SelectContent>
 									</Select>
 								</FormItem>
