@@ -24,7 +24,6 @@ export const JOB_LISTING_COLUMNS: string[] = [
 
 export const JOB_APPLICANTS_COLUMNS: string[] = [
   'Name',
-  'Applied Date',
 ]
 
 export const JOB_APPLICANTS_DATA = [
