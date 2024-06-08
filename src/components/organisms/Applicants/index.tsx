@@ -2,7 +2,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { JOB_APPLICANTS_COLUMNS, JOB_APPLICANTS_DATA } from '@/constants';
 import React, { FC } from 'react'
 import ButtonActionTable from '../ButtonActionTable';
-// import { Applicants } from '@prisma/client';
 
 interface ApplicantsProps {
   applicants: any
@@ -24,7 +23,7 @@ const Applicants: FC<ApplicantsProps> = ({applicants}) => {
           <>
           {applicants.map((item: any, i: number) => (
             <TableRow key={item.id + i}>
-              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.user.name}</TableCell>
               <TableCell>
                 <ButtonActionTable url="" />
               </TableCell>

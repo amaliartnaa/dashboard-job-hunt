@@ -35,7 +35,6 @@ async function getDetailJob(id: string) {
 }
 
 const JobDetailPage: FC<JobDetailPageProps> = async ({params}) => {
-  const session = await getServerSession(authOptions)
   const job = await getDetailJob(params.id)
   console.log(params.id)
 
@@ -68,7 +67,7 @@ const JobDetailPage: FC<JobDetailPageProps> = async ({params}) => {
           <Applicants applicants={job?.applicant}/>
         </TabsContent>
         <TabsContent value="jobDetails">
-          <JobDetail />
+          <JobDetail detail={job} />
         </TabsContent>
       </Tabs>
     </div>

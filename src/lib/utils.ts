@@ -25,6 +25,6 @@ export async function fetcher<JSON = any>(input: RequestInfo, init?: RequestInit
   return res.json() as Promise<JSON>
 }
 
-export const dateformat = (date: any, format: string = 'DDD MMM YYY') => {
+export const dateformat = (date: any, format: string = 'DD MMMM YYYY') => {
   return moment(date).format(format)
 }
