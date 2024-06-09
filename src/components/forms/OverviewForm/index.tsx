@@ -13,13 +13,15 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { EMPLOYEE_OPTIONS, LOCATION_OPTIONS, optionType } from '@/constants'
 import { overviewFormSchema } from '@/lib/form-schema'
-import { cn } from '@/lib/utils'
+import { cn, fetcher } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Industry } from '@prisma/client'
 import { Separator } from '@radix-ui/react-separator'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import React, { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import useSWR from 'swr'
 import { z } from 'zod'
 
 interface OverviewFormProps {
@@ -28,6 +30,8 @@ interface OverviewFormProps {
 
 const OverviewForm: FC<OverviewFormProps> = ({ }) => {
   const [editorLoaded, setEditorLoaded] = useState<boolean>(false)
+
+  const { data } = useSWR<Industry[]>('/api/company/industry', fetcher)
 
   const form = useForm<z.infer<typeof overviewFormSchema>>({
     resolver: zodResolver(overviewFormSchema),
@@ -165,12 +169,12 @@ const OverviewForm: FC<OverviewFormProps> = ({ }) => {
 											    </SelectTrigger>
 										    </FormControl>
 										    <SelectContent>
-											    {LOCATION_OPTIONS.map((item: optionType, i: number) => (
+                          {data?.map((item: Industry) => (
                             <SelectItem 
-                              key={item.id + i} 
+                              key={item.id} 
                               value={item.id}
                             >
-                              {item.label}
+                              {item.name}
                             </SelectItem>
                           ))}
 										    </SelectContent>
