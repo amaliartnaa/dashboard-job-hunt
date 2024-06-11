@@ -7,7 +7,7 @@ import FieldInput from '@/components/organisms/FieldInput'
 import InputSkills from '@/components/organisms/InputSkills'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -15,7 +15,7 @@ import { EMPLOYEE_OPTIONS, LOCATION_OPTIONS, optionType } from '@/constants'
 import { overviewFormSchema } from '@/lib/form-schema'
 import { cn, fetcher } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Industry } from '@prisma/client'
+import { Companyoverview, Industry } from '@prisma/client'
 import { Separator } from '@radix-ui/react-separator'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
@@ -25,16 +25,27 @@ import useSWR from 'swr'
 import { z } from 'zod'
 
 interface OverviewFormProps {
-
+  detail: Companyoverview | undefined;
 }
 
-const OverviewForm: FC<OverviewFormProps> = ({ }) => {
+const OverviewForm: FC<OverviewFormProps> = ({detail}) => {
   const [editorLoaded, setEditorLoaded] = useState<boolean>(false)
 
   const { data } = useSWR<Industry[]>('/api/company/industry', fetcher)
 
   const form = useForm<z.infer<typeof overviewFormSchema>>({
     resolver: zodResolver(overviewFormSchema),
+    defaultValues: {
+      dateFounded: detail?.dateFounded,
+      description: detail?.description,
+      employee: detail?.employee,
+      image: detail?.image,
+      industry: detail?.industry,
+      location: detail?.location,
+      name: detail?.name,
+      techStack: detail?.techStack,
+      website: detail?.website
+    }
   })
 
   const onSubmit = (val: z.infer<typeof overviewFormSchema>) => {

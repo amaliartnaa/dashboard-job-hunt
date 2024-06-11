@@ -1,16 +1,35 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import OverviewForm from "@/components/forms/OverviewForm";
 import SocialMediaForm from "@/components/forms/SocialMediaForm";
 import TeamForm from "@/components/forms/TeamForm";
 import Applicants from "@/components/organisms/Applicants";
 import JobDetail from "@/components/organisms/JobDetail";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getServerSession } from "next-auth";
 import React, { FC } from "react";
+import prisma from "../../../../lib/prisma";
 
 interface SettingsPageProps {
 
 }
 
-const SettingsPage: FC<SettingsPageProps> = ({ }) => {
+async function getDetailCompany() {
+  const session = await getServerSession(authOptions)
+
+  const company = await prisma.company.findFirst({
+    where: {id: session?.user.id},
+    include: {
+      Companyoverview: true
+    }
+  })
+
+  return company;
+}
+
+const SettingsPage: FC<SettingsPageProps> = async ({ }) => {
+  const company = await getDetailCompany();
+
+  console.log(company); 
   return (
     <div>
       <div className="font-semibold text-3xl mb-5">
@@ -24,7 +43,7 @@ const SettingsPage: FC<SettingsPageProps> = ({ }) => {
           <TabsTrigger value="teams">Teams</TabsTrigger>
         </TabsList>
         <TabsContent value="overview">
-          <OverviewForm />
+          <OverviewForm detail={company?.Companyoverview[0]}/>
         </TabsContent>
         <TabsContent value="socialLinks">
           <SocialMediaForm />
