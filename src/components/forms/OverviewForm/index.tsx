@@ -34,6 +34,7 @@ interface OverviewFormProps {
 
 const OverviewForm: FC<OverviewFormProps> = ({detail}) => {
   const [editorLoaded, setEditorLoaded] = useState<boolean>(false)
+  
   const {data: session} = useSession()
   const {toast} = useToast()
   const router = useRouter()
