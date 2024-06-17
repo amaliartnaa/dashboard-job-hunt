@@ -16,7 +16,7 @@ interface SettingsPageProps {
 async function getDetailCompany() {
   const session = await getServerSession(authOptions)
 
-  const company = await prisma.company.findFirst({
+  const company = prisma.company.findFirst({
     where: {id: session?.user.id},
     include: {
       Companyoverview: true
