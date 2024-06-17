@@ -11,14 +11,18 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useToast } from '@/components/ui/use-toast'
 import { EMPLOYEE_OPTIONS, LOCATION_OPTIONS, optionType } from '@/constants'
 import { overviewFormSchema } from '@/lib/form-schema'
+import { supabaseUpdateFile, supabaseUploadFile } from '@/lib/supabase'
 import { cn, fetcher } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Companyoverview, Industry } from '@prisma/client'
 import { Separator } from '@radix-ui/react-separator'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import React, { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import useSWR from 'swr'
@@ -30,6 +34,9 @@ interface OverviewFormProps {
 
 const OverviewForm: FC<OverviewFormProps> = ({detail}) => {
   const [editorLoaded, setEditorLoaded] = useState<boolean>(false)
+  const {data: session} = useSession()
+  const {toast} = useToast()
+  const router = useRouter()
 
   const { data } = useSWR<Industry[]>('/api/company/industry', fetcher)
 
@@ -48,8 +55,44 @@ const OverviewForm: FC<OverviewFormProps> = ({detail}) => {
     }
   })
 
-  const onSubmit = (val: z.infer<typeof overviewFormSchema>) => {
-    console.log(val)
+  const onSubmit = async (val: z.infer<typeof overviewFormSchema>) => {
+    try {
+      let filename = ""
+
+      if (typeof val.image === "object") {
+        const uploadImg = await supabaseUploadFile(val.image, "company")
+        filename = uploadImg.filename
+      } else {
+        filename = val.image
+      }
+
+      const body = {
+        ...val,
+        image: filename,
+        companyId: session?.user.id
+      }
+
+      await fetch('/api/company/overview', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body)
+      })
+
+      await toast ({
+        title: 'Success',
+        description: 'Edit profile success'
+      })
+
+      router.refresh()
+
+    } catch (error) {
+      await toast({
+        title: 'Error',
+        description: 'Please try again'
+      })
+
+      console.log(error)
+    }
   };
 
   useEffect(() => {
